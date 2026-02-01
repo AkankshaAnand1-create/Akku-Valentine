@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Dhruv</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1, #ff6f91);
+            background-size: 400% 400%;
+            animation: gradient 8s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradient {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        /* --- GLITTER HEARTS STYLE --- */
+        .heart-glitter {
+            position: absolute;
+            bottom: -10%;
+            color: rgba(255, 255, 255, 0.7);
+            user-select: none;
+            pointer-events: none;
+            animation: floatUp 4s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 10;
+            width: 320px;
+            position: relative;
+        }
+
+        h1 { color: #ff3366; font-size: 2.5em; margin: 0; }
+        h2 { color: #444; font-weight: normal; margin-top: 10px; }
+
+        .btn-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #yesBtn {
+            background-color: #ff3366;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        #noBtn {
+            background-color: #eee;
+            color: #777;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        #celebrate-section {
+            display: none;
+        }
+
+        #gif {
+            width: 100%;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+
+        p { color: #666; font-size: 1.1rem; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div id="heart-bg"></div>
+
+    <div class="container">
+        <div id="ask-section">
+            <h1>Dhruv</h1>
+            <h2>Will You Be My Valentine?</h2>
+            <div class="btn-container">
+                <button id="yesBtn" onclick="showLove()">YESSSS</button>
+                <button id="noBtn" onmouseover="dodge()" onclick="dodge()">No</button>
+            </div>
+        </div>
+
+        <div id="celebrate-section">
+            <h1>YAYYYYYY! ❤️</h1>
+            <img id="gif" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExazJoa2t5bTFreG45OGlyeW1wMW9sNGd5dWljYTJ4MmVxcmd1dTFhcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KmxmoHUGPDjfQXqGgv/giphy.gif" alt="Excited">
+            <p>Okay now you're officially stuck with me forever!</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. Function to create the floating hearts background
+        function createGlitter() {
+            const container = document.getElementById('heart-bg');
+            const hearts = ['❤️', '✨', '💖', '⭐', '💕'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-glitter');
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                heart.style.duration = (Math.random() * 2 + 3) + 's';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 4000);
+            }, 200);
+        }
+        createGlitter();
+
+        // 2. Logic to make the No button run away
+        function dodge() {
+            const btn = document.getElementById("noBtn");
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // 3. Logic for the Yes button (Confetti + GIF change)
+        function showLove() {
+            document.getElementById("ask-section").style.display = "none";
+            document.getElementById("celebrate-section").style.display = "block";
+            
+            // Trigger Confetti Explosion
+            var end = Date.now() + (3 * 1000);
+            var colors = ['#ff3366', '#ffffff', '#ff9a9e'];
+
+            (function frame() {
+              confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: colors
+              });
+              confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: colors
+              });
+
+              if (Date.now() < end) {
+                requestAnimationFrame(frame);
+              }
+            }());
+        }
+    </script>
+</body>
+</html>
